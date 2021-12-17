@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:travel_animated/place.dart';
 import 'package:travel_animated/place_card.dart';
 import 'package:travel_animated/place_detail_screen.dart';
-import 'package:travel_animated/text_theme_x.dart';
 import 'package:travel_animated/travel_navigation_bar.dart';
 
 class FeedScreen extends StatelessWidget {
@@ -35,20 +34,25 @@ class FeedScreen extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           final place = TravelPlace.places[index];
 
-          return PlaceCard(
-            place: place,
-            onPressed: () {
-              Navigator.push(context, PageRouteBuilder(
-                pageBuilder: (_, animation, __) {
-                  return FadeTransition(
-                      opacity: animation,
-                      child: PlaceDetailScreen(
-                        place: place,
-                        screenHeight: MediaQuery.of(context).size.height,
-                      ));
+          return Hero(
+            tag: place.id,
+            child: Material(
+              child: PlaceCard(
+                place: place,
+                onPressed: () {
+                  Navigator.push(context, PageRouteBuilder(
+                    pageBuilder: (_, animation, __) {
+                      return FadeTransition(
+                          opacity: animation,
+                          child: PlaceDetailScreen(
+                            place: place,
+                            screenHeight: MediaQuery.of(context).size.height,
+                          ));
+                    },
+                  ));
                 },
-              ));
-            },
+              ),
+            ),
           );
         },
       ),

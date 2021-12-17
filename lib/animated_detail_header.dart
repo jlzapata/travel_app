@@ -28,68 +28,73 @@ class AnimatedDetailHeader extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: [
-        ClipRect(
-          child: Stack(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(
-                  top: (20 + topPadding) * (1 - bottomPercent),
-                  bottom: 160 * (1 - bottomPercent),
-                ),
-                child: Transform.scale(
-                  scale: lerpDouble(1, 1.3, bottomPercent)!,
-                  child: PlaceImagesPageView(imagesUrl: imagesUrl),
-                ),
-              ),
-              Positioned(
-                top: topPadding,
-                left: -60 * (1 - bottomPercent),
-                child: const BackButton(
-                  color: Colors.white,
-                ),
-              ),
-              Positioned(
-                top: topPadding,
-                right: -60 * (1 - bottomPercent),
-                child: IconButton(
-                  icon: const Icon(
-                    Icons.more_horiz,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {},
-                ),
-              ),
-              Positioned(
-                top: lerpDouble(-30, 140, topPercent)!
-                    .clamp(topPadding + 10, 140),
-                left: lerpDouble(60, 20, topPercent)!.clamp(20.0, 50.0),
-                right: 20,
-                child: AnimatedOpacity(
-                  duration: kThemeAnimationDuration,
-                  opacity: topPercent,
-                  child: Text(place.name,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: lerpDouble(20, 40, topPercent),
-                        fontWeight: FontWeight.bold,
-                      )),
-                ),
-              ),
-              Positioned(
-                left: 20,
-                top: 200,
-                child: AnimatedOpacity(
-                  duration: kThemeAnimationDuration,
-                  opacity: bottomPercent < 1 ? 0 : 1,
-                  child: Opacity(
-                    opacity: topPercent,
-                    child: GradientStatusTag(
-                      statusTag: place.statusTag,
+        Hero(
+          tag: place.id,
+          child: Material(
+            child: ClipRect(
+              child: Stack(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: (20 + topPadding) * (1 - bottomPercent),
+                      bottom: 160 * (1 - bottomPercent),
+                    ),
+                    child: Transform.scale(
+                      scale: lerpDouble(1, 1.3, bottomPercent)!,
+                      child: PlaceImagesPageView(imagesUrl: imagesUrl),
                     ),
                   ),
-                ),
+                  Positioned(
+                    top: topPadding,
+                    left: -60 * (1 - bottomPercent),
+                    child: const BackButton(
+                      color: Colors.white,
+                    ),
+                  ),
+                  Positioned(
+                    top: topPadding,
+                    right: -60 * (1 - bottomPercent),
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.more_horiz,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {},
+                    ),
+                  ),
+                  Positioned(
+                    top: lerpDouble(-35, 140, topPercent)!
+                        .clamp(topPadding + 10, 140),
+                    left: lerpDouble(60, 20, topPercent)!.clamp(20.0, 50.0),
+                    right: 20,
+                    child: AnimatedOpacity(
+                      duration: kThemeAnimationDuration,
+                      opacity: topPercent,
+                      child: Text(place.name,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: lerpDouble(20, 40, topPercent),
+                            fontWeight: FontWeight.bold,
+                          )),
+                    ),
+                  ),
+                  Positioned(
+                    left: 20,
+                    top: 200,
+                    child: AnimatedOpacity(
+                      duration: kThemeAnimationDuration,
+                      opacity: bottomPercent < 1 ? 0 : 1,
+                      child: Opacity(
+                        opacity: topPercent,
+                        child: GradientStatusTag(
+                          statusTag: place.statusTag,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
         Positioned.fill(
@@ -100,7 +105,7 @@ class AnimatedDetailHeader extends StatelessWidget {
         ),
         Align(
           alignment: Alignment.bottomCenter,
-          child: Container(color: Colors.red, height: 10),
+          child: Container(color: Colors.white, height: 10),
         ),
         Positioned.fill(
           top: null,

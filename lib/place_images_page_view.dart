@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class PlaceImagesPageView extends StatelessWidget {
+class PlaceImagesPageView extends StatefulWidget {
   const PlaceImagesPageView({
     Key? key,
     required this.imagesUrl,
@@ -9,19 +9,32 @@ class PlaceImagesPageView extends StatelessWidget {
   final List<String> imagesUrl;
 
   @override
+  State<PlaceImagesPageView> createState() => _PlaceImagesPageViewState();
+}
+
+class _PlaceImagesPageViewState extends State<PlaceImagesPageView> {
+  int currentIndex = 0;
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Expanded(
           child: PageView.builder(
-            itemCount: imagesUrl.length,
+            itemCount: widget.imagesUrl.length,
+            onPageChanged: (value) => setState(() => currentIndex = value),
             physics: const BouncingScrollPhysics(),
             controller: PageController(viewportFraction: 0.9),
             itemBuilder: (context, index) {
-              final imageUrl = imagesUrl[index];
+              final imageUrl = widget.imagesUrl[index];
+              final isSelected = index == currentIndex;
 
-              return Container(
-                margin: const EdgeInsets.only(right: 10),
+              return AnimatedContainer(
+                duration: kThemeAnimationDuration,
+                margin: EdgeInsets.only(
+                    right: 10,
+                    top: isSelected ? 5 : 20,
+                    bottom: isSelected ? 5 : 20),
                 decoration: BoxDecoration(
                   boxShadow: const [
                     BoxShadow(
@@ -46,14 +59,17 @@ class PlaceImagesPageView extends StatelessWidget {
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: List.generate(
-              imagesUrl.length,
-              (index) => Container(
-                    color: Colors.black12,
-                    margin: const EdgeInsets.symmetric(horizontal: 3),
-                    height: 3,
-                    width: 10,
-                  )),
+          children: List.generate(widget.imagesUrl.length, (index) {
+            final isSelected = index == currentIndex;
+
+            return AnimatedContainer(
+              duration: kThemeAnimationDuration,
+              color: isSelected ? Colors.black38 : Colors.black12,
+              margin: const EdgeInsets.symmetric(horizontal: 3),
+              height: 3,
+              width: isSelected ? 20 : 10,
+            );
+          }),
         )
       ],
     );
